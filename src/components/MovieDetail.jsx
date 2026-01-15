@@ -7,6 +7,7 @@ function MovieDetail({ movie }) {
     <div className="movie-detail">
       <img src={`${IMAGE_BASE_URL}${movie.poster_path}`} alt={movie.title} />
       <h1>{movie.title}</h1>
+      <p>장르: {movie.genres && movie.genres.map((genre) => genre.name).join(", ")}</p>
       <p>⭐ {movie.vote_average}</p>
       <p>{movie.overview}</p>
     </div>
