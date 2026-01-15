@@ -1,8 +1,8 @@
 // import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 
-
 // page components
+import Layout from "@/components/Layout";
 import MovieList from "@/pages/MovieList";
 import MovieDetail from "@/pages/MovieDetail";
 import movieDetailData from "@/data/movieDetailData.json";
@@ -16,11 +16,13 @@ function App() {
 
   return (
     <Routes>
-      <Route path="/" element={<MovieList />} />
-      <Route
-        path="/details"
-        element={<MovieDetail movie={movieDetailData} />}
-      />
+      <Route element={<Layout />}>
+        <Route path="/" element={<MovieList />} />
+        <Route
+          path="/details"
+          element={<MovieDetail movie={movieDetailData} />}
+        />
+      </Route>
     </Routes>
   );
 }
