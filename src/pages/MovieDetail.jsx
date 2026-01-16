@@ -13,6 +13,7 @@ function toArray(data) {
 
 export default function MovieDetail() {
   const { id } = useParams();
+  console.log(id);
 
   const list = toArray(movieListData);
   const movie = list.find((m) => String(m?.id) === String(id));
