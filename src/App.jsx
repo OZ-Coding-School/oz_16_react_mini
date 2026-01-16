@@ -19,7 +19,7 @@ function App() {
       <Route element={<Layout />}>
         <Route path="/" element={<MovieList />} />
         <Route
-          path="/details"
+          path="/details/:id"
           element={<MovieDetail movie={movieDetailData} />}
         />
       </Route>

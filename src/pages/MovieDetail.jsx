@@ -1,9 +1,31 @@
 import "@/pages/MovieDetail.css";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { getMovieDetail } from "@/api/tmdb";
 
-const IMG_BASE = "https://image.tmdb.org/t/p/original";
+const IMG_BASE = "https://image.tmdb.org/t/p/w780";
 
-function MovieDetail({ movie }) {
-  if (!movie) return null;
+function MovieDetail() {
+  
+  const { id } = useParams();
+  const [movie, setMovie] = useState(null);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const fetchMovieDetail = async () => {
+      try {
+        const data = await getMovieDetail(id);
+        setMovie(data);
+      } catch (err) {
+        setError(err.message);
+      }
+    };
+    fetchMovieDetail();
+  }, [id]);
+
+  // error handling
+  if (error) return <div>{error}</div>;
+  if (!movie) return <div>Loading...</div>;
 
   const bg = movie.backdrop_path
     ? `${IMG_BASE}${movie.backdrop_path}`
