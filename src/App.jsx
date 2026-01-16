@@ -1,9 +1,10 @@
 import { Routes, Route, useNavigate } from "react-router-dom";
-import MovieCard from "./MovieCard.jsx";
+
 import MovieDetail from "./MovieDetail.jsx";
 import movieListData from "./movieListData.json";
 import "./App.css";
 import Layout from "./component/LayOut.jsx";
+import MovieCard from "./MovieCard.jsx";
 
 function MovieList() {
   const navigate = useNavigate();
