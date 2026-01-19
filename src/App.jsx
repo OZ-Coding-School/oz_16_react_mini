@@ -8,6 +8,16 @@ import Layout from "./share/Layout";
 function App() {
   // 더미데이터(movieListData) 상태관리
   const [movies, setMovies] = useState([]);
+  const [isDark, setIsDark] = useState(true); //다크모드
+
+  useEffect(() => {
+    const root = document.documentElement; // <html>
+    if (isDark) {
+      root.classList.add("dark");
+    } else {
+      root.classList.remove("dark");
+    }
+  }, [isDark]);
 
   useEffect(() => {
     const options = {
@@ -41,7 +51,7 @@ function App() {
   return (
     <>
       <Routes>
-        <Route element={<Layout />}>
+        <Route element={<Layout isDark={isDark} setIsDark={setIsDark} />}>
           {/* 메인 페이지 */}
           <Route
             path="/"

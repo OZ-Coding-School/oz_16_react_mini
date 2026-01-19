@@ -1,12 +1,13 @@
-import { Search, User } from "lucide-react";
+import { Moon, Search, Sun, User } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useDebounce from "../hook/useDebounce";
 
 //렌더링 될시 한번만 스타일 적용
-const buttonStyle = "bg-violet-600 px-3 py-1 rounded-md text-white";
+const buttonStyle =
+  "bg-violet-600 hover:bg-violet-700 px-3 py-1 rounded-md text-white transition";
 
-export default function NavBar() {
+export default function NavBar({ setIsDark, isDark }) {
   const [searchText, setSearchText] = useState("");
   const [isSearchOpen, setIsSearchOpen] = useState(false); // 검색 아이콘 하위에 드롭다운
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false); //모바일 경우 로그인 회원가입 하위 드롭메뉴로
@@ -24,19 +25,31 @@ export default function NavBar() {
   }, [debouncedQuery]); //{debouncedQuery} = input에 입력한 값
 
   return (
-    <nav className="fixed top-0 left-0 z-10 w-full h-16 bg-black/80 backdrop-blur-md border-b border-white/10">
+    <nav className="fixed top-0 left-0 z-10 w-full h-16 bg-white/80 dark:bg-black/80 backdrop-blur-md border-b border-black/10 dark:border-white/10">
       <div className="max-w-7xl mx-auto h-full flex items-center justify-between px-6 gap-4">
-        <h1 className="text-5xl text-white shrink-0 font-['Bebas_Neue'] tracking-wider">
-          OZ<b className="text-violet-400 text-3xl">무비.</b>
+        <h1 className="text-5xl text-black dark:text-white shrink-0 font-['Bebas_Neue'] tracking-wider">
+          OZ
+          <b className="text-violet-600 dark:text-violet-400 text-3xl">무비.</b>
         </h1>
 
         <div className="flex gap-3 items-center w-full justify-end">
-          {/* Desktop Search (>=768px) */}
+          {/* 다크모드 라이트모드 버튼 추가 */}
+          <button
+            onClick={() => setIsDark((prev) => !prev)}
+            className="text-black dark:text-white p-2 rounded-full hover:bg-violet-600/20 transition"
+          >
+            {isDark ? <Sun size={20} /> : <Moon size={20} />}
+          </button>
+          {/* 데스크탑 input */}
           <input
             onChange={(e) => setSearchText(e.target.value)}
             type="text"
             placeholder="영화 검색..."
-            className="hidden md:block w-[300px] bg-white/10 text-white placeholder-white/60 rounded-full px-4 py-2
+            className="hidden md:block w-[300px]
+            bg-black/10 dark:bg-white/10
+            text-black dark:text-white
+            placeholder-black/40 dark:placeholder-white/60
+            rounded-full px-4 py-2
             focus:outline-none focus:ring-2 focus:ring-violet-500"
           />
 
@@ -44,7 +57,7 @@ export default function NavBar() {
           <button
             type="button"
             onClick={() => setIsSearchOpen((prev) => !prev)}
-            className="md:hidden text-white p-2 rounded-full hover:bg-white/10 transition"
+            className="md:hidden p-2 rounded-full text-black dark:text-white hover:bg-violet-600/20 transition"
           >
             <Search size={20} />
           </button>
@@ -61,7 +74,7 @@ export default function NavBar() {
               <button
                 type="button"
                 onClick={() => setIsUserMenuOpen((prev) => !prev)}
-                className="text-white p-2 rounded-full hover:bg-white/10 transition"
+                className="p-2 rounded-full text-black dark:text-white hover:bg-violet-600/20 transition"
                 aria-label="유저 메뉴"
               >
                 <User size={22} />
@@ -69,11 +82,11 @@ export default function NavBar() {
 
               {/* 유저 아이콘 클릭 시 드롭다운 메뉴 */}
               {isUserMenuOpen && (
-                <div className="absolute right-0 top-11 w-32 rounded-md bg-black/90 backdrop-blur-md border border-violet-600 shadow-lg overflow-hidden z-20">
-                  <button className="w-full py-2 text-sm text-white hover:bg-violet-600">
+                <div className="absolute right-0 top-11 w-32 rounded-md bg-white dark:bg-black/90 backdrop-blur-md border border-violet-600 shadow-lg overflow-hidden z-20">
+                  <button className="w-full py-2 text-sm text-black dark:text-white hover:bg-violet-600 hover:text-white transition">
                     로그인
                   </button>
-                  <button className="w-full py-2 text-sm text-white hover:bg-violet-600">
+                  <button className="w-full py-2 text-sm text-black dark:text-white hover:bg-violet-600 hover:text-white transition">
                     회원가입
                   </button>
                 </div>
@@ -83,16 +96,15 @@ export default function NavBar() {
         </div>
       </div>
 
-      {/* 검색창 아이콘 클릭시 */}
+      {/* 모바일 검색창 아이콘 클릭시 */}
       {isSearchOpen && (
-        <div className="md:hidden absolute top-16 left-0 w-full bg-black/90 backdrop-blur-md border-b border-white/10 px-4 py-3">
+        <div className="md:hidden absolute top-16 left-0 w-full bg-white/90 dark:bg-black/90 backdrop-blur-md border-b border-black/10 dark:border-white/10 px-4 py-3">
           <input
             autoFocus
             onChange={(e) => setSearchText(e.target.value)}
             type="text"
             placeholder="영화 검색..."
-            className="w-full bg-white/10 text-white placeholder-white/60 rounded-full px-4 py-2
-            focus:outline-none focus:ring-2 focus:ring-violet-500"
+            className="w-full bg-black/10 dark:bg-white/10 text-black dark:text-white placeholder-black/40 dark:placeholder-white/60 rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-violet-500"
           />
         </div>
       )}

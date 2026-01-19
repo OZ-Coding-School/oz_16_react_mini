@@ -33,22 +33,24 @@ export default function MovieDetail() {
       {detail && (
         <section className="relative w-full h-full">
           {/* HERO 영역 (background 전용, content와 완전 분리) */}
-          <div className="relative w-full h-[60vh]">
+          <div className="relative w-full h-[66vh] overflow-hidden">
             <div
-              className="absolute inset-0 bg-center bg-cover md:blur-xs blur-0"
+              className="absolute inset-0 bg-center bg-cover dark:md:blur-xs blur-0"
               style={{
                 backgroundImage: `url(${baseUrl}${detail.backdrop_path})`
               }}
             />
-
             {/* 전체 배경 위에 어두운 오버레이 */}
-            <div className="absolute inset-0 md:bg-black/40 bg-black/70" />
-
-            <div className="pointer-events-none absolute inset-x-0 -bottom-1.5 md:-bottom-4 h-80 bg-linear-to-b from-transparent to-[#0f0f0f]" />
+            <div className="absolute inset-0 md:bg-black/20 bg-black/70" />
+            <div
+              className="pointer-events-none absolute inset-x-0 bottom-0 h-48
+                        bg-linear-to-b from-transparent to-[#ffffffd8]
+                        dark:from-transparent dark:to-zinc-950"
+            />
           </div>
 
           {/* content 영역 */}
-          <div className="top-20 absolute z-1 px-4 flex w-full justify-center md:items-center items-start">
+          <div className="top-30 absolute z-1 px-4 flex w-full justify-center md:items-center items-start">
             <div
               className="
                 relative rounded-2xl
