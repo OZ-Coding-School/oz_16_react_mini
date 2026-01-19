@@ -20,7 +20,7 @@ function App() {
     const movieApi = async () => {
       try {
         const api = await fetch(
-          "https://api.themoviedb.org/3/movie/popular",
+          "https://api.themoviedb.org/3/movie/popular?language=ko-KR",
           options
         );
         const res = await api.json();

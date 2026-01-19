@@ -10,7 +10,7 @@ export default function MovieDetail() {
     const detailFetch = async () => {
       try {
         const detailApi = await fetch(
-          `https://api.themoviedb.org/3/movie/${params.id}`,
+          `https://api.themoviedb.org/3/movie/${params.id}?language=ko-KR`,
           {
             headers: {
               accept: "application/json",
