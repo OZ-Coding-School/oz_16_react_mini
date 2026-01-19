@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import genreMap from "../data/genreMap";
+import genreMap from "../data/genreMap.js";
 
 const baseUrl = "https://image.tmdb.org/t/p/w500";
 
