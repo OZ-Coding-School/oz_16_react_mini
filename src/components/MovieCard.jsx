@@ -8,7 +8,7 @@ export default function MovieCard({ posterPath, title, rating, id }) {
         <img
           src={`${baseUrl}${posterPath}`}
           alt={title}
-          className="w-full object-cover h-[300px]"
+          className="w-full object-cover aspect-2/3" // 이미지 짤려서 aspect 사용
         />
 
         <div className="p-2 text-white">
