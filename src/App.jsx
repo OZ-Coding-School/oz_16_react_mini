@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import MovieCard from "./components/MovieCard";
 import MovieDetail from "./components/MovieDetail";
+import Search from "./pages/Search";
 import Layout from "./share/Layout";
 
 function App() {
@@ -45,9 +46,9 @@ function App() {
           <Route
             path="/"
             element={
-              <main>
+              <main className="mt-14">
                 <section className="max-w-7xl mx-auto p-4">
-                  <ul className="grid grid-cols-[repeat(auto-fill,minmax(160px,1fr))] gap-4">
+                  <ul className="grid grid-cols-[repeat(auto-fill,minmax(220px,1fr))] gap-4">
                     {movies.map((movie) => (
                       <MovieCard
                         key={movie.id}
@@ -65,6 +66,7 @@ function App() {
 
           {/* 상세 페이지 */}
           <Route path="/detail/:id" element={<MovieDetail />} />
+          <Route path="/search" element={<Search />} />
         </Route>
       </Routes>
     </>
