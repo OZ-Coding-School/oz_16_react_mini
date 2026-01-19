@@ -1,50 +1,90 @@
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import movieListData from "../data/movieListData.json";
 
-const baseUrl = "https://image.tmdb.org/t/p/w500";
-
-function toArray(data) {
-  if (!data) return [];
-  if (Array.isArray(data)) return data;
-  if (Array.isArray(data.results)) return data.results;
-  if (typeof data === "object") return Object.values(data);
-  return [];
-}
+const baseImg = "https://image.tmdb.org/t/p/w500";
 
 export default function MovieDetail() {
   const { id } = useParams();
-  console.log(id);
+  const [movie, setMovie] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [errorMsg, setErrorMsg] = useState("");
 
-  const list = toArray(movieListData);
-  const movie = list.find((m) => String(m?.id) === String(id));
+  useEffect(() => {
+    async function fetchDetail() {
+      try {
+        setLoading(true);
+        setErrorMsg("");
 
-  if (!movie) {
-    return (
-      <div style={{ padding: 24 }}>
-        <h2>영화를 찾을 수 없습니다.</h2>
-        <p>요청한 ID: {id}</p>
-      </div>
-    );
-  }
+        const res = await fetch(
+          `https://api.themoviedb.org/3/movie/${id}?language=ko-KR`,
+          {
+            headers: {
+              Authorization: `Bearer ${import.meta.env.VITE_TMDB_TOKEN}`,
+            },
+          },
+        );
 
-  const posterUrl = movie.poster_path ? `${baseUrl}${movie.poster_path}` : "";
+        if (!res.ok) {
+          throw new Error(`TMDB 요청 실패: ${res.status}`);
+        }
+
+        const data = await res.json();
+        setMovie(data);
+      } catch (err) {
+        setErrorMsg(err?.message || "상세 데이터를 불러오지 못했습니다.");
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchDetail();
+  }, [id]);
+
+  if (loading) return <div style={{ padding: 24 }}>로딩중...</div>;
+  if (errorMsg) return <div style={{ padding: 24 }}>에러: {errorMsg}</div>;
+  if (!movie)
+    return <div style={{ padding: 24 }}>영화를 찾을 수 없습니다.</div>;
+
+  const posterUrl = movie.poster_path ? `${baseImg}${movie.poster_path}` : "";
 
   return (
-    <div style={{ padding: 24 }}>
-      <h1>{movie.title}</h1>
+    <div
+      style={{
+        padding: 24,
+        display: "grid",
+        gridTemplateColumns: "240px 1fr",
+        gap: 24,
+      }}
+    >
+      <div>
+        {posterUrl ? (
+          <img
+            src={posterUrl}
+            alt={movie.title}
+            style={{ width: 240, borderRadius: 12 }}
+          />
+        ) : (
+          <div
+            style={{
+              width: 240,
+              height: 360,
+              background: "#ddd",
+              borderRadius: 12,
+            }}
+          />
+        )}
+      </div>
 
-      {posterUrl && (
-        <img
-          src={posterUrl}
-          alt={movie.title}
-          style={{ width: 300, marginBottom: 16 }}
-        />
-      )}
-
-      <p>⭐ 평점: {movie.vote_average}</p>
-
-      {/* 리스트 데이터에 overview가 없을 수도 있어서 방어 */}
-      {movie.overview && <p style={{ marginTop: 12 }}>{movie.overview}</p>}
+      <div>
+        <h1 style={{ marginTop: 0 }}>{movie.title}</h1>
+        <p style={{ margin: "8px 0" }}>평점: {movie.vote_average}</p>
+        <p style={{ margin: "8px 0" }}>
+          장르: {movie.genres?.map((g) => g.name).join(", ")}
+        </p>
+        <p style={{ lineHeight: 1.6 }}>
+          {movie.overview || "줄거리가 없습니다."}
+        </p>
+      </div>
     </div>
   );
 }
