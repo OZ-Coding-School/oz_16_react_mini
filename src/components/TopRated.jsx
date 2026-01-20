@@ -16,12 +16,12 @@ function TopRated({ movies }) {
 
   return (
     <section style={{ marginBottom: "40px" }}>
-      <h2 className="section-title">⭐ 평점 TOP 10</h2>
+      <h2 className="section-title">평점 TOP 10</h2>
 
       <Swiper
         modules={[Navigation]}
-        spaceBetween={20}
-        slidesPerView={5}
+        spaceBetween={10}
+        slidesPerView="auto"
         navigation
         breakpoints={{
           0: { slidesPerView: 2.2 },

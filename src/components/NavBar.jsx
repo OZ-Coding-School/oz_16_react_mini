@@ -14,7 +14,9 @@ function NavBar() {
     const q = debouncedKeyword.trim();
 
     if (!q) {
-      navigate("/", { replace: true });
+      if (location.pathname === "/search") {
+        navigate("/", { replace: true });
+      }
       return;
     }
 

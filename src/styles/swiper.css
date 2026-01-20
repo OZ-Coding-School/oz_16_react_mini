@@ -1,6 +1,10 @@
 :root {
     --swiper-theme-color: #000;
 }
+.swiper {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
 
 .swiper-button-prev,
 .swiper-button-next {
@@ -19,3 +23,7 @@
 .swiper-button-disabled {
     opacity: 0.3;
 }
+/* 
+.toprated .swiper-slide {
+  width: min(240px, 22vw);
+} */

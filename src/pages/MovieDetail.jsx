@@ -57,7 +57,7 @@ function MovieDetail() {
           {/* 오른쪽: 정보 */}
           <div className="detail-info">
             <h1 className="detail-title">{movie.title}</h1>
-            <p className="detail-rating">⭐ {movie.vote_average}</p>
+            <p className="detail-rating">⭐ {movie.vote_average.toFixed(1)}</p>
 
             <div className="detail-genres">
               {movie.genres?.map((g) => (
