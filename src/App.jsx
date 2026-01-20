@@ -1,12 +1,35 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import movieListData from "./data/movieListData.json";
 import MovieCard from "./components/MovieCard";
 import "./App.css";
 
 function App() {
-  const [movies] = useState(movieListData.results);
+  const [movies, setMovies] = useState([]);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchMovies = async () => {
+      const response = await fetch(
+        "https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=1",
+        {
+          headers: {
+            accept: "application/json",
+            Authorization: `Bearer ${import.meta.env.VITE_TMDB_ACCESS_TOKEN}`,
+          },
+        }
+      );
+
+      const data = await response.json();
+
+      const filteredMovies = data.results.filter(
+        (movie) => movie.adult === false
+      );
+
+      setMovies(filteredMovies);
+    };
+
+    fetchMovies();
+  }, []);
 
   return (
     <div className="wrap">
@@ -19,12 +42,13 @@ function App() {
             posterPath={movie.poster_path}
             title={movie.title}
             voteAverage={movie.vote_average}
-            onClick={() => navigate("/details")}
+            onClick={() => navigate(`/details/${movie.id}`)}
           />
         ))}
       </div>
     </div>
   );
 }
+console.log(import.meta.env.VITE_TMDB_ACCESS_TOKEN);
 
 export default App;
