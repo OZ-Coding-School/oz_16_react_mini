@@ -2,6 +2,10 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSupabase } from "../../context/AuthContext";
 
+const INPUT_BASE_CLASS = `w-full rounded-md bg-white/80 border border-zinc-300 
+  text-zinc-900 placeholder-zinc-600 dark:bg-black/40 dark:border-white/10 dark:text-white 
+  dark:placeholder-white/40 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-violet-500`;
+
 export default function Login() {
   const navigate = useNavigate();
   const supabase = useSupabase();
@@ -13,6 +17,13 @@ export default function Login() {
     email: "",
     password: ""
   }); // 에러 상태값
+
+  // 어떤 input이 사용자가 한 번이라도 건드렸는지 상태 저장
+  // touched 상태를 사용하면 사용자가 입력을 시작하기 전에는 에러 메시지를 숨길 수 있음
+  const [touched, setTouched] = useState({
+    email: false,
+    password: false
+  });
 
   // 로그인 유효성 검사
   const validate = () => {
@@ -40,12 +51,16 @@ export default function Login() {
     setValue((prev) => ({ ...prev, [name]: value }));
   };
 
-  // input 포커스 아웃 시 유효성 검사 실행
-  const handleBlur = () => {
+  // input 포커스 아웃 시 touched 상태를 true로 변경하고 유효성 검사 실행
+  // 포커스 아웃 시 바로 모든 에러를 보여주지 않는 이유는
+  // 사용자가 입력을 시작하지 않은 필드의 에러를 미리 보여주면 UX가 나빠지기 때문
+  const handleBlur = (e) => {
+    const { name } = e.target;
+    setTouched((prev) => ({ ...prev, [name]: true }));
     validate();
   };
 
-  //메인페이지로 이동
+  //로그인 성공시 메인 페이지로 이동
   const handleLogin = async (e) => {
     e.preventDefault(); // 폼 제출 시 새로고침 막기
 
@@ -58,40 +73,40 @@ export default function Login() {
       password: value.password
     });
 
-    // 3. 서버에서 에러 주면 처리
+    // 3. 서버에서 에러 주면 처리 / 이메일 이나 비번 틀리면
     if (error) {
-      alert(error.message);
+      alert("이메일 또는 비밀번호가 올바르지 않습니다.");
       return;
     }
 
     // 4. 성공하면 메인 페이지 이동
     navigate("/");
+    alert("로그인 성공 했습니다");
   };
 
   return (
     <div
       className="w-full relative
-                min-h-[calc(100svh-64px)]
-                overflow-hidden bg-zinc-50 text-zinc-900 dark:bg-zinc-950 dark:text-white
-                flex flex-col items-center justify-center gap-10
-                p-6 md:p-8 "
+                min-h-screen p-6 md:p-8 overflow-hidden
+                 bg-zinc-50 text-zinc-900 dark:bg-zinc-950 dark:text-white
+                flex flex-col items-center justify-center gap-10"
     >
       {/* 배경 효과 */}
       <div className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[120%] h-[80%] md:h-[50%] bg-[radial-gradient(ellipse_at_top,rgba(0,0,0,0.06),rgba(255,255,255,0)_70%)] dark:bg-[radial-gradient(ellipse_at_top,rgba(255,255,255,0.18),rgba(0,0,0,0)_70%)]" />
 
       {/* 오즈무비 로그인폼 묶음 */}
       <div
-        className="relative z-10 w-full max-w-[1280px] mx-auto
+        className="relative z-10 w-full max-w-7xl mx-auto
                   flex flex-col items-center gap-10
                   md:grid md:grid-cols-2 md:gap-0"
       >
         {/* OZ MOVIE 영역 왼쪽 */}
         <div className="relative flex items-center justify-center shrink-0">
           <div
-            className="leading-18 text-center relative z-10
-             text-black/70 dark:text-violet-200/80
-             text-6xl font-black
-             tracking-[0.2em] md:tracking-[0.4em]
+            className="leading-26 text-center relative z-10
+             text-black/70 dark:text-violet-200/60
+             md:text-8xl font-black text-7xl 
+             md:tracking-[0.2em] tracking-widest font-['Bebas_Neue'] 
              [text-shadow:0_0_20px_rgba(206, 81, 252, 0.42)] dark:[text-shadow:0_0_50px_rgba(255,255,255,0.25)]"
           >
             OZ MOVIE
@@ -99,7 +114,7 @@ export default function Login() {
         </div>
 
         {/* 로그인 영역 */}
-        <div className="w-full flex justify-center md:h-[500px]">
+        <div className="w-full flex justify-center md:justify-start md:h-[500px]">
           <div className="relative z-10 max-w-md rounded-2xl bg-white/70 border border-zinc-200 dark:bg-black/10 dark:border-white/10 backdrop-blur-xl shadow-[0_30px_80px_rgba(0,0,0,0.6)] w-full px-10 py-16">
             {/* Header */}
             <h1 className="text-zinc-700 dark:text-white/60 text-2xl mb-8 w-full text-center font-black">
@@ -110,15 +125,15 @@ export default function Login() {
             <form onSubmit={handleLogin} className="space-y-6">
               <div>
                 <input
-                  value={value.name}
+                  value={value.email}
                   onBlur={handleBlur}
                   onChange={handleChange}
                   name="email"
                   type="email"
                   placeholder="Email address"
-                  className="w-full rounded-md bg-white/80 border border-zinc-300 text-zinc-900 placeholder-zinc-400 dark:bg-black/40 dark:border-white/10 dark:text-white dark:placeholder-white/40 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-violet-500"
+                  className={INPUT_BASE_CLASS}
                 />
-                {errors.email && (
+                {touched.email && errors.email && (
                   <p className="text-xs text-red-500 ml-2 mt-2">
                     {errors.email}
                   </p>
@@ -133,9 +148,9 @@ export default function Login() {
                   onChange={handleChange}
                   type="password"
                   placeholder="Password"
-                  className="w-full rounded-md bg-white/80 border border-zinc-300 text-zinc-900 placeholder-zinc-400 dark:bg-black/40 dark:border-white/10 dark:text-white dark:placeholder-white/40 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-violet-500"
+                  className={INPUT_BASE_CLASS}
                 />
-                {errors.password && (
+                {touched.password && errors.password && (
                   <p className="text-xs text-red-500 ml-2 mt-2">
                     {errors.password}
                   </p>

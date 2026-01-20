@@ -29,6 +29,15 @@ export default function Signup() {
     confirmPassword: ""
   }); // 에러 상태값
 
+  // 사용자가 실제로 입력한 필드인지 추적하기 위한 상태
+  // 에러 메시지는 사용자가 해당 필드와 상호작용(포커스 아웃)했을 때만 보여주기 위함
+  const [touched, setTouched] = useState({
+    name: false,
+    email: false,
+    password: false,
+    confirmPassword: false
+  });
+
   //input 상태변경 함수
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -64,8 +73,10 @@ export default function Signup() {
     return Object.keys(newErrors).length === 0;
   };
 
-  // input 포커스 아웃 시 유효성 검사 실행
-  const handleBlur = () => {
+  // input 포커스 아웃 시 유효성 검사 실행 및 해당 필드를 touched 처리
+  const handleBlur = (e) => {
+    const { name } = e.target;
+    setTouched((prev) => ({ ...prev, [name]: true }));
     validate();
   };
 
@@ -81,14 +92,18 @@ export default function Signup() {
         email: values.email,
         password: values.password
       });
+
       if (error) {
-        alert(error.message);
+        alert("이메일 또는 비밀번호가 올바르지 않습니다.");
         return;
       }
+
+      alert("회원가입이 완료되었습니다.");
 
       // 성공적으로 회원가입하면 로그인 페이지로 이동
       navigate("/login");
     } catch (err) {
+      // 코드, 네트워크 에러처리
       console.error(err);
       alert("회원가입 중 오류가 발생했습니다.");
     }
@@ -98,7 +113,7 @@ export default function Signup() {
     <div
       className="
         w-full relative
-        min-h-[calc(100svh-64px)]
+        min-h-screen
         overflow-hidden
         bg-zinc-50 text-zinc-900
         dark:bg-zinc-950 dark:text-white
@@ -146,7 +161,7 @@ export default function Signup() {
               placeholder="이름을 입력해주세요"
               className={INPUT_BASE_STYLE}
             />
-            {errors.name ? (
+            {touched.name && errors.name ? (
               <p className="text-xs text-red-500 ml-2 mt-2">{errors.name}</p>
             ) : (
               ""
@@ -162,7 +177,7 @@ export default function Signup() {
               placeholder="이메일 형식으로 입력해주세요"
               className={INPUT_BASE_STYLE}
             />
-            {errors.email ? (
+            {touched.email && errors.email ? (
               <p className="text-xs text-red-500 ml-2 mt-2">{errors.email}</p>
             ) : (
               ""
@@ -179,7 +194,7 @@ export default function Signup() {
               placeholder="영문 대/소문자와 숫자를 조합해 입력"
               className={INPUT_BASE_STYLE}
             />
-            {errors.password ? (
+            {touched.password && errors.password ? (
               <p className="text-xs text-red-500 ml-2 mt-2">
                 {errors.password}
               </p>
@@ -198,7 +213,7 @@ export default function Signup() {
               placeholder="비밀번호와 동일하게 입력해주세요"
               className={INPUT_BASE_STYLE}
             />
-            {errors.confirmPassword ? (
+            {touched.confirmPassword && errors.confirmPassword ? (
               <p className="text-xs text-red-500 ml-2 mt-2">
                 {errors.confirmPassword}
               </p>
