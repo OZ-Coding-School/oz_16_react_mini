@@ -1,4 +1,4 @@
-import { Link, useNavigate, createSearchParams } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 // import "./NavBar.css";
 import "@/styles/NavBar.css";
 import { useEffect, useState } from "react";
@@ -6,6 +6,7 @@ import useDebounce from "@/hooks/useDebounce";
 
 function NavBar() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [keyword, setKeyword] = useState("");
 
   const debouncedKeyword = useDebounce(keyword, 400);
@@ -20,19 +21,21 @@ function NavBar() {
       return;
     }
 
-    navigate({
-      pathname: "/search",
-      search: `?${createSearchParams({ q })}`,
-    });
-  }, [debouncedKeyword, navigate]);
+    navigate(`/search?q=${encodeURIComponent(q)}`);
+  }, [debouncedKeyword, navigate, location.pathname]);
+
+  const handleLogoClick = () => {
+    setKeyword("");
+    navigate("/", { replace: true });
+  };
 
 
   return (
     <nav className="navbar">
       <div>
-        <Link to="/" className="logo-link">
+        <button onClick={handleLogoClick} className="logo-button">
           <h2 className="logo">OZ 무비</h2>
-        </Link>
+        </button>
       </div>
       
       <input

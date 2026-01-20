@@ -45,3 +45,10 @@
 .search-input:focus {
   border-color: #000000;
 }
+
+.logo-button {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
