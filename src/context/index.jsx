@@ -1,5 +1,5 @@
 import { createContext, useContext } from "react";
-import { supabaseEnv } from "../utilities";
+import { supabaseEnv } from "@/utilities";
 import { createClient } from "@supabase/supabase-js";
 
 // supabase 로그인 유지 세션 생성

@@ -1,14 +1,19 @@
 import "@/styles/Auth.css";
 import { useState, useMemo } from "react";
-import Formfield from "../components/FormField";
+import { useNavigate } from "react-router-dom";
+import Formfield from "@/components/FormField";
+import useSupabaseAuth from "@/hooks/index.js";
 
 
 export default function Login() {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+    const navigate = useNavigate();
+
     const [values, setValues] = useState({ email: "", password: "" });
-    const [touched, setTouched] = useState({ email: false, password: false });
-    
+    const [error, setError] = useState("");
+    const { login, getUserInfo, loginWithKakao, loginWithGoogle } = useSupabaseAuth();
+
     const errors = useMemo(() => {
         const e = {};
         if (!values.email.trim()) e.email = "이메일을 입력해주세요.";
@@ -23,13 +28,20 @@ export default function Login() {
         setValues((prev) => ({ ...prev, [name]: value }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        setTouched({ email: true, password: true });
+        setError("");
 
-        if (Object.keys(errors).length > 0) return;
+        const res = await login({ email: values.email.trim(), password: values.password });
 
-        console.log("login submit:", values);
+        if (res?.error) {
+        setError(res.error.message);
+        return;
+        }
+
+        await getUserInfo();
+
+        navigate("/", { replace: true });
     };
 
     return (
@@ -44,7 +56,6 @@ export default function Login() {
                 value={values.email}
                 onChange={handleChange}
                 placeholder="이메일을 입력하세요"
-                error={touched.email && errors.email}
             />
             <Formfield
                 label="비밀번호"
@@ -53,9 +64,15 @@ export default function Login() {
                 value={values.password}
                 onChange={handleChange}
                 placeholder="비밀번호를 입력하세요"
-                error={touched.password && errors.password}
             />
+            {errors ? <p className="field-error">{errors}</p> : null}
             <button type="submit" className="auth-button">로그인</button>
+            <button type="button" className="auth-button" onClick={loginWithKakao}>
+                카카오로 로그인
+            </button>
+            <button type="button" className="auth-button" onClick={loginWithGoogle}>
+                구글로 로그인
+            </button>
         </form>
         <hr/>
         <p className="to-signup">계정이 없으신가요? <a href="/signup">회원가입</a></p>
