@@ -65,29 +65,24 @@
   cursor: pointer;
 }
 
-.nav-button-login {
-  padding: 8px 12px;
+.nav-button {
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-weight: 600;
   border: none;
-  border-radius: 10px;
-  background: #2e2e2e;
+  cursor: pointer;
+  margin: 5px;
+}
+
+.nav-button.default {
+  background: #f0f0f0;
+  color: #000;
+}
+.nav-button.signup {
+  background: #000;
   color: #fff;
-  font-weight: 800;
-  cursor: pointer;
-  margin-left: 10px;
 }
-.nav-button-login:hover {
-  background: #1a1a1a;
+.nav-button:hover {
+  opacity: 0.8;
 }
-.nav-button-signup {
-  padding: 8px 12px;
-  border: none;
-  border-radius: 10px;
-  background: #d4d4d4;
-  color: #000000;
-  font-weight: 800;
-  cursor: pointer;
-  margin-left: 10px;
-}
-.nav-button-signup:hover {
-  background: #bcbcbc;
-}
+

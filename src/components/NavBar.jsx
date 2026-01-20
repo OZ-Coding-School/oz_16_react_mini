@@ -3,6 +3,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import "@/styles/NavBar.css";
 import { useEffect, useState } from "react";
 import useDebounce from "@/hooks/useDebounce";
+import NavButton from "./NavButton";
 
 function NavBar() {
   const navigate = useNavigate();
@@ -46,14 +47,16 @@ function NavBar() {
         />
 
         <div className="auth-button-field">
-          <button 
-          className="nav-button-login"
-          onClick={() => navigate("/login")}>
-            로그인</button>
-          <button 
-          className="nav-button-signup"
-          onClick={() => navigate("/signup")}>
-            회원가입</button>
+          <NavButton
+            text="로그인"
+            onClick={() => navigate("/login")}
+          />
+
+          <NavButton
+            text="회원가입"
+            variant="signup"
+            onClick={() => navigate("/signup")}
+          />
         </div>
       </div>
     </nav>
