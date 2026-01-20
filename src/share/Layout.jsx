@@ -6,7 +6,10 @@ function Layout({ isDark, setIsDark }) {
   return (
     <>
       <NavBar isDark={isDark} setIsDark={setIsDark} />
-      <Outlet />
+
+      <main className="mt-16">
+        <Outlet />
+      </main>
     </>
   );
 }

@@ -45,7 +45,7 @@ export default function Search() {
 
   return (
     // 검색 결과를 화면에 렌더링
-    <ul className="grid grid-cols-[repeat(auto-fill,minmax(220px,1fr))] gap-4 p-6 mt-14">
+    <ul className="grid grid-cols-[repeat(auto-fill,minmax(220px,1fr))] gap-4 p-6">
       {movies.map((movie) => (
         <MovieCard
           key={movie.id}

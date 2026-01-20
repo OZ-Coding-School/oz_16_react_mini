@@ -31,7 +31,7 @@ export default function MovieDetail() {
   return (
     <>
       {detail && (
-        <section className="relative w-full h-full mt-16">
+        <section className="relative w-full h-full">
           {/* HERO 영역 (background 전용, content와 완전 분리) */}
           <div className="relative w-full h-[calc(35vh+28vw-64px)] min-h-[280px] max-h-[70vh] overflow-hidden">
             <div
