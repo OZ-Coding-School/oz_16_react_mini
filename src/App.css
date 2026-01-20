@@ -1,51 +1,22 @@
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  margin: 0;
+  padding: 0;
 }
-
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+* {
+  box-sizing: border-box;
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
-}
-
 .wrap {
   max-width: 1200px;
   margin: 0 auto;
+  padding: 40px;
 }
 
+.title {
+  text-align: center;
+  font-size: 40px;
+  font-weight: 800;
+  margin: 40px 0;
+}
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
@@ -53,25 +24,88 @@
 }
 
 .card {
+  padding: 1em;
   cursor: pointer;
+  background-color: #1f1f1f;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.2s ease;
+}
+
+.card:hover {
+  transform: scale(1.05);
 }
 
 .poster {
   width: 100%;
-  border-radius: 8px;
+  display: block;
 }
 
 .card-info {
-  margin-top: 8px;
-  text-align: left;
+  padding: 10px;
 }
 
 .card-title {
   font-size: 14px;
-  font-weight: 600;
+  margin-bottom: 4px;
 }
 
 .card-rate {
   font-size: 13px;
-  color: #666;
+  color: #f5c518;
+}
+
+.detail-poster {
+  width: 300px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+.detail-wrap {
+  padding: 40px;
+  display: flex;
+  justify-content: center;
+}
+
+.detail-container {
+  display: flex;
+  gap: 40px;
+  max-width: 900px;
+  width: 100%;
+}
+
+.detail-info {
+  flex: 1;
+}
+
+.detail-rate {
+  margin: 10px 0;
+  color: #f5c518;
+}
+
+.detail-genres span {
+  display: inline-block;
+  margin-right: 8px;
+  font-size: 14px;
+  color: #aaa;
+}
+
+.detail-overview {
+  margin-top: 20px;
+  line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+  .detail-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .detail-info {
+    width: 100%;
+  }
+
+  .detail-poster {
+    width: 240px;
+    margin-bottom: 0;
+  }
 }
