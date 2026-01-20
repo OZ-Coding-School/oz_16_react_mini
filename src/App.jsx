@@ -77,9 +77,9 @@ function App() {
           {/* 상세 페이지 */}
           <Route path="/detail/:id" element={<MovieDetail />} />
           <Route path="/search" element={<Search />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
         </Route>
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
       </Routes>
     </>
   );
