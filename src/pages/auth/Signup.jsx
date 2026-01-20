@@ -1,7 +1,81 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+
+const INPUT_BASE_STYLE = `
+  w-full rounded-md
+  bg-white/90 border border-zinc-300
+  text-zinc-800 placeholder-zinc-700
+  dark:bg-black/35 dark:border-white/15
+  dark:text-white dark:placeholder-white/35
+  px-4 py-3
+  focus:outline-none focus:ring-2 focus:ring-violet-500
+`;
 
 export default function Signup() {
   const navigate = useNavigate();
+  const [values, setValues] = useState({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: ""
+  }); //input 관련 상태값 객체로 묶음
+
+  const [errors, setErrors] = useState({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: ""
+  }); // 에러 상태값
+
+  //input 상태변경 함수
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setValues((prev) => ({ ...prev, [name]: value }));
+  };
+  // console.log(values);
+
+  //유효성 검사 함수
+  const validate = () => {
+    const newErrors = {};
+
+    const nameRegex = /^[a-zA-Z0-9가-힣]{2,4}$/;
+    if (!nameRegex.test(values.name)) {
+      newErrors.name = "이름을 입력 해주세요";
+    }
+    const emailRegex =
+      /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+    if (!emailRegex.test(values.email)) {
+      newErrors.email = "이메일 형식이 올바르지 않습니다";
+    }
+
+    const passwordRegex = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{8,10}$/;
+    if (!passwordRegex.test(values.password)) {
+      newErrors.password = "영문과 숫자를 조합해 8~10자로 입력해주세요";
+    }
+
+    if (values.password !== values.confirmPassword) {
+      newErrors.confirmPassword = "비밀번호가 일치하지 않습니다";
+    }
+    setErrors(newErrors);
+
+    // 에러가 하나도 없으면 true
+    return Object.keys(newErrors).length === 0;
+  };
+
+  // input 포커스 아웃 시 유효성 검사 실행
+  const handleBlur = () => {
+    validate();
+  };
+
+  // 회원가입 폼 제출 시 실행
+  const handleSubmit = (e) => {
+    e.preventDefault(); // 새로고침 막기
+
+    const isValid = validate();
+    if (!isValid) return; // 유효성 검사 실패 시 제출 중단
+
+    console.log("회원가입 요청 가능", values);
+  };
 
   return (
     <div
@@ -43,48 +117,78 @@ export default function Signup() {
         <p className="text-center text-xs text-zinc-500 dark:text-white/40 mb-6">
           Create your account to start exploring movies
         </p>
-        <form className="space-y-6">
-          <input
-            type="text"
-            placeholder="Name"
-            className="
-              w-full rounded-md
-              bg-white/80 border border-zinc-300
-              text-zinc-900 placeholder-zinc-400
-              dark:bg-black/40 dark:border-white/10
-              dark:text-white dark:placeholder-white/40
-              px-4 py-3
-              focus:outline-none focus:ring-2 focus:ring-violet-500
-            "
-          />
 
-          <input
-            type="email"
-            placeholder="Email address"
-            className="
-              w-full rounded-md
-              bg-white/80 border border-zinc-300
-              text-zinc-900 placeholder-zinc-400
-              dark:bg-black/40 dark:border-white/10
-              dark:text-white dark:placeholder-white/40
-              px-4 py-3
-              focus:outline-none focus:ring-2 focus:ring-violet-500
-            "
-          />
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div>
+            <input
+              value={values.name}
+              name="name"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              type="text"
+              placeholder="이름을 입력해주세요"
+              className={INPUT_BASE_STYLE}
+            />
+            {errors.name ? (
+              <p className="text-xs text-red-500 ml-2 mt-2">{errors.name}</p>
+            ) : (
+              ""
+            )}
+          </div>
+          <div>
+            <input
+              value={values.email}
+              onBlur={handleBlur}
+              onChange={handleChange}
+              name="email"
+              type="email"
+              placeholder="이메일 형식으로 입력해주세요"
+              className={INPUT_BASE_STYLE}
+            />
+            {errors.email ? (
+              <p className="text-xs text-red-500 ml-2 mt-2">{errors.email}</p>
+            ) : (
+              ""
+            )}
+          </div>
 
-          <input
-            type="password"
-            placeholder="Password"
-            className="
-              w-full rounded-md
-              bg-white/80 border border-zinc-300
-              text-zinc-900 placeholder-zinc-400
-              dark:bg-black/40 dark:border-white/10
-              dark:text-white dark:placeholder-white/40
-              px-4 py-3
-              focus:outline-none focus:ring-2 focus:ring-violet-500
-            "
-          />
+          <div>
+            <input
+              value={values.password}
+              onBlur={handleBlur}
+              onChange={handleChange}
+              name="password"
+              type="password"
+              placeholder="영문 대/소문자와 숫자를 조합해 입력"
+              className={INPUT_BASE_STYLE}
+            />
+            {errors.password ? (
+              <p className="text-xs text-red-500 ml-2 mt-2">
+                {errors.password}
+              </p>
+            ) : (
+              ""
+            )}
+          </div>
+
+          <div>
+            <input
+              value={values.confirmPassword}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              name="confirmPassword"
+              type="password"
+              placeholder="비밀번호와 동일하게 입력해주세요"
+              className={INPUT_BASE_STYLE}
+            />
+            {errors.confirmPassword ? (
+              <p className="text-xs text-red-500 ml-2 mt-2">
+                {errors.confirmPassword}
+              </p>
+            ) : (
+              ""
+            )}
+          </div>
 
           <button
             type="submit"
