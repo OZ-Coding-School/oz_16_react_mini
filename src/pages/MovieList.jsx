@@ -37,7 +37,7 @@ function MovieList() {
   return (
     <div className="page">
       <TopRated movies={movies} />
-      <h2>인기 상영작</h2>
+      <h2 className="section-title">인기 상영작</h2>
       <div className="grid">
         {movies.map((movie) => (
           <MovieCard key={movie.id} movie={movie} />

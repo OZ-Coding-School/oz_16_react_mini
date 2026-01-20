@@ -15,7 +15,7 @@ function TopRated({ movies }) {
     .slice(0, 10);
 
   return (
-    <section style={{ marginBottom: "40px" }}>
+    <section>
       <h2 className="section-title">평점 TOP 10</h2>
 
       <Swiper
