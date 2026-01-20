@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSupabase } from "../../context/AuthContext";
 
 const INPUT_BASE_STYLE = `
   w-full rounded-md
@@ -13,6 +14,7 @@ const INPUT_BASE_STYLE = `
 
 export default function Signup() {
   const navigate = useNavigate();
+  const supabase = useSupabase();
   const [values, setValues] = useState({
     name: "",
     email: "",
@@ -68,13 +70,28 @@ export default function Signup() {
   };
 
   // 회원가입 폼 제출 시 실행
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault(); // 새로고침 막기
 
     const isValid = validate();
     if (!isValid) return; // 유효성 검사 실패 시 제출 중단
 
-    console.log("회원가입 요청 가능", values);
+    try {
+      const { error } = await supabase.auth.signUp({
+        email: values.email,
+        password: values.password
+      });
+      if (error) {
+        alert(error.message);
+        return;
+      }
+
+      // 성공적으로 회원가입하면 로그인 페이지로 이동
+      navigate("/login");
+    } catch (err) {
+      console.error(err);
+      alert("회원가입 중 오류가 발생했습니다.");
+    }
   };
 
   return (

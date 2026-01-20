@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSupabase } from "../../context/AuthContext";
 
 export default function Login() {
   const navigate = useNavigate();
+  const supabase = useSupabase();
   const [value, setValue] = useState({
     email: "",
     password: ""
@@ -44,12 +46,25 @@ export default function Login() {
   };
 
   //메인페이지로 이동
-  const handleLogin = (e) => {
-    e.preventDefault();
+  const handleLogin = async (e) => {
+    e.preventDefault(); // 폼 제출 시 새로고침 막기
 
-    const isValid = validate();
+    const isValid = validate(); // 1. 유효성 검사
     if (!isValid) return;
 
+    // 2. Supabase 서버에 로그인 요청 (fetch 역할)
+    const { error } = await supabase.auth.signInWithPassword({
+      email: value.email,
+      password: value.password
+    });
+
+    // 3. 서버에서 에러 주면 처리
+    if (error) {
+      alert(error.message);
+      return;
+    }
+
+    // 4. 성공하면 메인 페이지 이동
     navigate("/");
   };
 
