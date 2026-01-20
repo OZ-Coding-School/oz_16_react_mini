@@ -18,7 +18,7 @@
 
 .logo {
   margin: 0;
-  font-size: 36px;
+  font-size: 24px;
   font-family: "Cafe24ProUp", sans-serif;
 }
 
@@ -40,6 +40,13 @@
   border-radius: 10px;
   border: 1px solid #cccccc;
   outline: none;
+}
+@media (max-width: 600px) {
+  .search-input {
+    width: 140px;
+    margin-left: 8px;
+    padding: 6px 8px;
+  }
 }
 
 .search-input:focus {
