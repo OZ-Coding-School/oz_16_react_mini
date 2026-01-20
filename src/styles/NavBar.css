@@ -15,6 +15,12 @@
 .navbar a:visited {
   color: inherit;
 }
+.nav-right
+{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
 
 .logo {
   margin: 0;
@@ -23,7 +29,6 @@
 }
 
 
-/* 오른쪽 영역 */
 .nav-links {
   display: flex;
   align-items: center;
@@ -58,4 +63,31 @@
   border: none;
   padding: 0;
   cursor: pointer;
+}
+
+.nav-button-login {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 10px;
+  background: #2e2e2e;
+  color: #fff;
+  font-weight: 800;
+  cursor: pointer;
+  margin-left: 10px;
+}
+.nav-button-login:hover {
+  background: #1a1a1a;
+}
+.nav-button-signup {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 10px;
+  background: #d4d4d4;
+  color: #000000;
+  font-weight: 800;
+  cursor: pointer;
+  margin-left: 10px;
+}
+.nav-button-signup:hover {
+  background: #bcbcbc;
 }

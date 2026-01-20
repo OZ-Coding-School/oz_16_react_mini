@@ -37,13 +37,25 @@ function NavBar() {
           <h2 className="logo">OZ 무비</h2>
         </button>
       </div>
-      
-      <input
-        className="search-input"
-        placeholder="영화 제목 검색"
-        value={keyword}
-        onChange={(e) => setKeyword(e.target.value)}
-      />
+      <div className="nav-right">
+        <input
+          className="search-input"
+          placeholder="영화 제목 검색"
+          value={keyword}
+          onChange={(e) => setKeyword(e.target.value)}
+        />
+
+        <div className="auth-button-field">
+          <button 
+          className="nav-button-login"
+          onClick={() => navigate("/login")}>
+            로그인</button>
+          <button 
+          className="nav-button-signup"
+          onClick={() => navigate("/signup")}>
+            회원가입</button>
+        </div>
+      </div>
     </nav>
   );
 }
