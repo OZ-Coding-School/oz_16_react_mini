@@ -1,0 +1,47 @@
+.navbar {
+  height: 60px;
+  background: #ffffff;
+  padding: 2px 24px;
+  border-bottom: #cccccc 1px solid;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.navbar a {
+  color: inherit;
+  text-decoration: none;
+}
+.navbar a:visited {
+  color: inherit;
+}
+
+.logo {
+  margin: 0;
+  font-size: 36px;
+  font-family: "Cafe24ProUp", sans-serif;
+}
+
+
+/* 오른쪽 영역 */
+.nav-links {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}
+
+
+/* 검색 입력 */
+.search-input {
+  margin-left: 16px;
+  padding: 8px 10px;
+  width: 220px;
+  background-color: #e9e9e9;
+  border-radius: 10px;
+  border: 1px solid #cccccc;
+  outline: none;
+}
+
+.search-input:focus {
+  border-color: #000000;
+}

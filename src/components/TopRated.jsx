@@ -9,14 +9,14 @@ import MovieCard from "@/components/MovieCard";
 
 
 function TopRated({ movies }) {
-    // 상위 5개 영화 선택
-  const top5Movies = [...movies]
+    // 상위 10개 영화 선택
+  const top10Movies = [...movies]
     .sort((a, b) => b.vote_average - a.vote_average)
-    .slice(0, 5);
+    .slice(0, 10);
 
   return (
     <section style={{ marginBottom: "40px" }}>
-      <h2 className="section-title">⭐ 평점 TOP 5</h2>
+      <h2 className="section-title">⭐ 평점 TOP 10</h2>
 
       <Swiper
         modules={[Navigation]}
@@ -30,7 +30,7 @@ function TopRated({ movies }) {
           1024: { slidesPerView: 5 },
         }}
       >
-        {top5Movies.map((movie) => (
+        {top10Movies.map((movie) => (
           <SwiperSlide key={movie.id}>
             <MovieCard movie={movie} />
           </SwiperSlide>

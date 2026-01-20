@@ -37,3 +37,25 @@ export async function getMovieDetail(id) {
 
   return res.json(); // 상세 영화 객체
 }
+
+function headers() {
+  return {
+    Authorization: `Bearer ${import.meta.env.VITE_API_TOKEN}`,
+    accept: "application/json",
+  };
+}
+
+export async function searchMovies(query, { page = 1 } = {}) {
+  const q = query?.trim();
+  if (!q) return { results: [] };
+
+  const url = new URL(`${BASE_URL}/search/movie`);
+  url.searchParams.set("query", q);
+  url.searchParams.set("page", String(page));
+  url.searchParams.set("include_adult", "false");
+
+  const res = await fetch(url.toString(), { headers: headers() });
+  if (!res.ok) throw new Error(`TMDB search 실패: ${res.status}`);
+
+  return res.json();
+}
