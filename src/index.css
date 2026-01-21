@@ -23,3 +23,25 @@ body,
   width: 100%;
   min-height: 100%;
 }
+
+/* 다크모드 */
+.dark input:-webkit-autofill,
+.dark input:-webkit-autofill:hover,
+.dark input:-webkit-autofill:focus,
+.dark textarea:-webkit-autofill {
+  -webkit-text-fill-color: #ffffff;
+  -webkit-box-shadow: 0 0 0px 1000px rgba(0, 0, 0, 0.85) inset;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  transition: background-color 9999s ease-in-out 0s;
+}
+
+/* 라이트모드 */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill {
+  -webkit-text-fill-color: #111111;
+  -webkit-box-shadow: 0 0 0px 1000px #ffffff inset;
+  border: 1px solid rgb(209, 213, 219); /* zinc-300 */
+  transition: background-color 9999s ease-in-out 0s;
+}
