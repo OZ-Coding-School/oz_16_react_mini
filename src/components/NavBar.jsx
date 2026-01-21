@@ -3,6 +3,8 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import "@/styles/NavBar.css";
 import { useEffect, useState } from "react";
 import useDebounce from "@/hooks/useDebounce";
+import NavButton from "./NavButton";
+import AuthMenu from "@/components/AuthMenu";
 
 function NavBar() {
   const navigate = useNavigate();
@@ -37,13 +39,17 @@ function NavBar() {
           <h2 className="logo">OZ 무비</h2>
         </button>
       </div>
-      
-      <input
-        className="search-input"
-        placeholder="영화 제목 검색"
-        value={keyword}
-        onChange={(e) => setKeyword(e.target.value)}
-      />
+      <div className="nav-right">
+        <input
+          className="search-input"
+          placeholder="영화 제목 검색"
+          value={keyword}
+          onChange={(e) => setKeyword(e.target.value)}
+        />
+        <div className="auth-button-field">
+          <AuthMenu />
+        </div>
+      </div>
     </nav>
   );
 }

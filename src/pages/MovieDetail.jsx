@@ -1,4 +1,4 @@
-import "@/pages/MovieDetail.css";
+import "@/styles/MovieDetail.css";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getMovieDetail } from "@/api/tmdb";

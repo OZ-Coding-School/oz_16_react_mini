@@ -7,6 +7,8 @@ import MovieList from "@/pages/MovieList";
 import MovieDetail from "@/pages/MovieDetail";
 import movieDetailData from "@/data/movieDetailData.json";
 import SearchPage from "@/pages/SearchPage";
+import Login from "@/pages/Login";
+import Signup from "@/pages/Signup";
 
 
 // css components
@@ -24,6 +26,10 @@ function App() {
           element={<MovieDetail movie={movieDetailData} />}
         />
         <Route path="/search" element={<SearchPage />} />
+
+        {/* auth route */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
       </Route>
     </Routes>
   );
