@@ -8,9 +8,11 @@ function Layout() {
   return (
     <>
       <NavBar />
-      <Container className="pt-12">
-        <Outlet />
-      </Container>
+      <main>
+        <Container className="pt-12">
+          <Outlet />
+        </Container>
+      </main>
     </>
   );
 }
