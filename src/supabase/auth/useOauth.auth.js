@@ -1,4 +1,4 @@
-import { useSupabase } from "@/context/SupabaseProvider";
+import { useSupabase } from "../context";
 
 export const useOAuth = () => {
   const supabase = useSupabase();

@@ -4,6 +4,7 @@ import "@/styles/NavBar.css";
 import { useEffect, useState } from "react";
 import useDebounce from "@/hooks/useDebounce";
 import NavButton from "./NavButton";
+import AuthMenu from "@/components/AuthMenu";
 
 function NavBar() {
   const navigate = useNavigate();
@@ -45,18 +46,8 @@ function NavBar() {
           value={keyword}
           onChange={(e) => setKeyword(e.target.value)}
         />
-
         <div className="auth-button-field">
-          <NavButton
-            text="로그인"
-            onClick={() => navigate("/login")}
-          />
-
-          <NavButton
-            text="회원가입"
-            variant="signup"
-            onClick={() => navigate("/signup")}
-          />
+          <AuthMenu />
         </div>
       </div>
     </nav>

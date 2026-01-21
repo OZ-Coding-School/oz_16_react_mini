@@ -1,9 +1,16 @@
 import "@/styles/Auth.css";
 import { useState, useMemo } from "react";
 import Formfield from "../components/FormField";
+import { useSupabaseAuth } from "@/supabase/auth"
+import { useNavigate } from "react-router-dom";
 
 export default function SignUp() {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const navigate = useNavigate();
+
+    const { signUp } = useSupabaseAuth();
+    const [serverError, setServerError] = useState("");
+
 
     const [values, setValues] = useState({
         username: "",
@@ -13,7 +20,7 @@ export default function SignUp() {
     });
 
     const [touched, setTouched] = useState({
-        name: false,
+        username: false,
         email: false,
         password: false,
         passwordConfirm: false,
@@ -40,11 +47,13 @@ export default function SignUp() {
 
     const handlechange = (e) => {
         const { name, value } = e.target;
+        setServerError("");
         setValues((prev) => ({ ...prev, [name]: value }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        setServerError("");
 
         setTouched({
             username: true,
@@ -53,9 +62,21 @@ export default function SignUp() {
             passwordConfirm: true,
         });
         
-        if (Object.keys(errors).length === 0) {
-            console.log("제출 성공:", values);
-        } else return;
+        if (Object.keys(errors).length !== 0) return;
+
+        const res = await signUp({
+        email: values.email.trim(),
+        password: values.password,
+        userName: values.username.trim(),
+        });
+
+        if (res?.error) {
+        setServerError(res.error.message || "회원가입에 실패했습니다.");
+        return;
+        }
+
+        // 로그인 페이지 이동 안내 팝업?
+        navigate("/login", { replace: true });
     };
         
 
@@ -101,6 +122,8 @@ export default function SignUp() {
                     placeholder="비밀번호를 다시 입력하세요"
                     error={touched.passwordConfirm && errors.passwordConfirm}
                 />
+
+                {serverError ? <p className="field-error">{serverError}</p> : null}
 
                 <button type="submit" className="auth-button">회원가입</button>
             </form>
