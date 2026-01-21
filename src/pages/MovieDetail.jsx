@@ -20,9 +20,18 @@ function MovieDetail() {
   const posterSrc = movie.poster_path ? `${IMG_BASE_URL}${movie.poster_path}` : "";
 
   return (
-    <div className="flex gap-6">
+    <div className="flex flex-col md:flex-row gap-6">
       {/* 좌측 이미지 */}
-      <img className="w-100 shrink-0" src={posterSrc} alt={movie.title} />
+      <img
+        className="
+        w-full max-w-[420px] 
+        md:w-72 lg:w-80 xl:w-96
+        shrink-0
+        rounded-lg
+        object-cover"
+        src={posterSrc}
+        alt={movie.title}
+      />
       {/* 우측 정보 */}
       <div className="space-y-3 w-100">
         <h2>
