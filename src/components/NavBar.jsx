@@ -1,6 +1,6 @@
 import { Moon, Search, Sun, User } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useDebounce from "../hook/useDebounce";
 import { supabaseClient } from "../lib/supabaseClient";
 
@@ -67,10 +67,14 @@ export default function NavBar({ setIsDark, isDark }) {
   return (
     <nav className="fixed top-0 left-0 z-10 w-full h-16 bg-white/80 dark:bg-black/80 backdrop-blur-md border-b border-black/10 dark:border-white/10">
       <div className="max-w-7xl mx-auto h-full flex items-center justify-between px-6 gap-4">
-        <h1 className="text-5xl text-black dark:text-white shrink-0 font-['Bebas_Neue'] tracking-wider">
-          OZ
-          <b className="text-violet-600 dark:text-violet-400 text-3xl">무비.</b>
-        </h1>
+        <Link to="/" className="shrink-0">
+          <h1 className="text-5xl text-black dark:text-white font-['Bebas_Neue'] tracking-wider">
+            OZ
+            <b className="text-violet-600 dark:text-violet-400 text-3xl">
+              무비.
+            </b>
+          </h1>
+        </Link>
 
         <div className="flex gap-3 items-center w-full justify-end">
           {/* 다크모드 라이트모드 버튼 추가 */}
