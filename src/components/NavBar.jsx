@@ -15,7 +15,7 @@ export default function NavBar({ setIsDark, isDark }) {
   //delay는 useDebounce 내부 default 값(300ms)을 사용 변경할때 (searchText,500) 이런식으로 쓰면됨
   const debouncedQuery = useDebounce(searchText);
   const navigate = useNavigate(); //페이지 이동
-  const location = useLocation();
+  // const location = useLocation();
   const [user, setUser] = useState(null);
 
   //로그인 로그아웃 감지 하는 훅 생성
@@ -51,13 +51,9 @@ export default function NavBar({ setIsDark, isDark }) {
   };
 
   useEffect(() => {
-    if (!debouncedQuery) {
-      navigate("/");
-      return;
-    }
-
-    navigate(`/search?q=${debouncedQuery}`);
-  }, [debouncedQuery, navigate, location.pathname]);
+    if (!debouncedQuery) return;
+    navigate(`?q=${debouncedQuery}`);
+  }, [debouncedQuery]);
 
   return (
     <nav className="fixed top-0 left-0 z-10 w-full h-16 bg-white/80 dark:bg-black/80 backdrop-blur-md border-b border-black/10 dark:border-white/10">
@@ -81,7 +77,18 @@ export default function NavBar({ setIsDark, isDark }) {
           {/* 데스크탑 input */}
           <input
             value={searchText}
-            onChange={(e) => setSearchText(e.target.value)}
+            onChange={(e) => {
+              setSearchText(e.target.value);
+
+              // 검색어 입력 시작하면 검색 페이지로 이동
+              if (e.target.value.trim()) {
+                navigate("/search");
+              }
+              // 검색어를 다 지우면 메이페이지로 이동 어떤게 어떤 UX가 좋을지 모르겠음
+              else {
+                navigate("/");
+              }
+            }}
             type="text"
             placeholder="영화 검색..."
             className="hidden md:block w-[300px]
