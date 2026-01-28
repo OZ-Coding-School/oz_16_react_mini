@@ -16,10 +16,11 @@ export default function Main() {
         if (isLoading) return; // 로딩중일때 실행 중지
 
         console.log("옵저버 실행");
+        observer.disconnect();
         setIsLoading(true);
         setPage((prev) => prev + 1);
       },
-      { threshold: 0.25 } //관찰 대상(loader)의 면적 중 25%가 화면에 보이면 실행
+      { threshold: 0.1 } //관찰 대상(loader)의 면적 중 25%가 화면에 보이면 실행
     );
     if (loader.current) {
       observer.observe(loader.current);
@@ -48,7 +49,13 @@ export default function Main() {
         const filteredMovies = res.results.filter(
           (movie) => movie.adult === false
         );
-        setMovies((prev) => [...prev, ...filteredMovies]);
+        setMovies((prev) => {
+          const existingIds = new Set(prev.map((m) => m.id));
+          const newMovies = filteredMovies.filter(
+            (movie) => !existingIds.has(movie.id)
+          );
+          return [...prev, ...newMovies];
+        });
       } catch {
         console.log("error 다시 해보셈");
       } finally {
