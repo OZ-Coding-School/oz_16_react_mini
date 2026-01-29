@@ -8,7 +8,7 @@ import MovieDetail from "@/pages/MovieDetail";
 import movieDetailData from "@/data/movieDetailData.json";
 import SearchPage from "@/pages/SearchPage";
 import Login from "@/pages/Login";
-import Signup from "@/pages/Signup";
+import Signup from "@/pages/SignUp";
 
 
 // css components
